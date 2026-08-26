@@ -14,6 +14,8 @@ import { challenges } from '../data/datacache'
 import * as security from '../lib/insecurity'
 import { UserModel } from '../models/user'
 import * as utils from '../lib/utils'
+// @ts-expect-error FIXME due to non-existing type definitions for notevil
+import { eval as safeEval } from 'notevil'
 
 const entities = new Entities()
 
@@ -58,7 +60,7 @@ export function getUserProfile () {
         if (!code) {
           throw new Error('Username is null')
         }
-        username = eval(code) // eslint-disable-line no-eval
+        username = safeEval(code)
       } catch (err) {
         username = '\\' + username
       }
